@@ -5,6 +5,7 @@ const foodSchema = new Schema({
     description: String,
     tags: [{type: Schema.Types.ObjectId, ref:'Tags'}],
     location: String,
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User'}]
 });
 const Food = mongoose.model('Food', foodSchema)
 module.exports = Food
