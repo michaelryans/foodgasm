@@ -2,7 +2,8 @@ const Food = require('../models/food')
 class FoodController {
     static create(req,res) {
         console.log('masuk ke sini')
-        res.status(200).json('masuk ke controller')
+        console.log(req.file)
+        res.status(200).json(req.file.cloudStoragePublicUrl)
     }
     
     static findOne(req,res) {
