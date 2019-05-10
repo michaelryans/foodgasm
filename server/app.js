@@ -6,6 +6,7 @@ const PORT = 3000;
 const cors = require('cors')
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/foodgasm', {useNewUrlParser:true})
+const errorHandler = require('./middlewares/errorHandling')
 
 //body parser
 app.use(cors())

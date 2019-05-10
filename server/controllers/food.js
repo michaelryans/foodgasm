@@ -14,7 +14,6 @@ class FoodController {
     static updateLike(req, res, next){
         const { id } = req.params
         const {user_id} = req.query
-     
 
         Food.findOne({ _id : id })
         .then( data => {
@@ -53,9 +52,7 @@ class FoodController {
         let obj = {}
 
         if( tag || search ){ 
-
             search = new RegExp(`${search}.+`) 
-           
             obj = { $or: [{'title' :{ $regex: search , $options: 'i' }} ,{ 'tags.text' : tag}] }
         }
 
