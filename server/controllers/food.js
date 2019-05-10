@@ -13,7 +13,7 @@ class FoodController {
 
     static updateLike(req, res, next){
         const { id } = req.params
-        const {user_id} = req.query
+        const {user_id} = req.headers.id
 
         Food.findOne({ _id : id })
         .then( data => {
