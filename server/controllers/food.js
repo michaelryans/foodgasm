@@ -5,7 +5,6 @@ class FoodController {
         const { name, caption, image, tags } = req.body //tambah key tag dari front end
 
         const create_obj = {
-            image :req.file.cloudStoragePublicUrl, 
             tags : req.file.labels, 
             name, 
             caption, 
