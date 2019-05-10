@@ -28,6 +28,9 @@ client
             delete el.locale
             delete el.confidence
             delete el.boundingPoly
+            el.text = el.description
+            delete el.description
+            // el.tiClasses=['ti-valid']
         })
         req.file.labels = labels
         next()

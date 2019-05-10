@@ -2,9 +2,16 @@ const Food = require('../models/food')
 
 class FoodController {
     static create(req,res, next) {
-        const { name, caption } = req.body
+        const { name, caption, image, tags } = req.body //tambah key tag dari front end
 
-        const create_obj = { image :req.file.cloudStoragePublicUrl, tags : req.file.labels, name, caption}
+        const create_obj = {
+            image :req.file.cloudStoragePublicUrl, 
+            tags : req.file.labels, 
+            name, 
+            caption, 
+            image, 
+            tags
+        }
         create_obj.user_id = req.headers.id
 
         Food.create(create_obj)
@@ -14,6 +21,11 @@ class FoodController {
         .catch( err => {
             next(err)
         })
+    }
+
+    static upload(req,res,next) {
+        const image_data = {image: req.file.cloudStoragePublicUrl, tags:req.file.labels}
+        res.status(200).json(image_data)
     }
 
     static updateLike(req, res, next){

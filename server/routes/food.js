@@ -4,10 +4,12 @@ const {multer, sendUploadToGCS} = require('../middlewares/gcs')
 const googleVision = require('../middlewares/googleVison')
 const {authenticate, authorize} = require('../middlewares/auth')
 
-router.use(authenticate)
-router.post('/', multer.single('file'), sendUploadToGCS, googleVision, controller.create)
-router.patch('/like/:id', controller.updateLike)
 router.get('/', controller.getAll)
+
+router.use(authenticate)
+router.post('/upload', multer.single('file'), sendUploadToGCS, googleVision, controller.upload)
+router.post('/', controller.create)
+router.patch('/like/:id', controller.updateLike)
 router.patch('/:id', controller.updateOne)
 router.delete('/:id', controller.deleteOne)
 
