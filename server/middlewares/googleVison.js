@@ -15,7 +15,11 @@ client
     let flag = false
 
     labels.map( el => {
-        if( el.description == 'Food'){
+        if( el.description == 'Food' || 
+        el.description == 'Drink' || 
+        el.description == 'Fruit'|| 
+        el.description =='Dish' || 
+        el.description == 'Cuisine') {
             flag = true
         } 
     })
