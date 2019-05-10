@@ -25,7 +25,7 @@ class User {
             if(data){
                 if( bcrypt.compareHash(password, data.password)){
                     let token = jwt.sign({id:data._id, email: data.email})
-                    res.status(200).json({token, name:data.name})
+                    res.status(200).json({token, name:data.name, id: data._id})
                 } else {
                     next({message : `incorrect username/password`})
                 }
