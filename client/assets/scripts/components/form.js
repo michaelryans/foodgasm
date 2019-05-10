@@ -35,8 +35,7 @@ Vue.component("form-user", {
                   </b-form-group>
                   <b-row class="d-flex justify-content-around mt-5">
                     <b-button type="submit" style="background-color: #084C61; font-color: white" @click.prevent="login">Login</b-button>
-                    <small class="text-muted mt-2">or</small>
-                    <b-button type="reset" style="background-color: #4F6D7A; font-color: white">Register</b-button>
+                    <slot></slot>
                 </b-row>
                 </b-form>
               </div>
@@ -51,7 +50,7 @@ Vue.component("form-user", {
   },
   methods:{
     login(){
-      this.$emit("submit-login",{
+      this.$emit("submit-form",{
         email: this.userLogin.email,
         password: this.userLogin.password
       })

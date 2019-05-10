@@ -8,6 +8,11 @@ let app = new Vue({
       email: "",
       password: ""
     },
+    userRegister:{
+      email:'',
+      password: '',
+      name:""
+    },
     file: "",
     tag:"",
     tags:[],
@@ -57,7 +62,6 @@ let app = new Vue({
   },
   methods:{
     login(input){
-
       axios({
         url: `${url}/users/login`,
         method: "post",
@@ -78,6 +82,20 @@ let app = new Vue({
     logout(){
       localStorage.removeItem('token')
       this.isLogin = false
+    },
+    register(){
+      axios({
+        url: `${url}/users/register`,
+        method: "post",
+        data: {
+          email: this.userRegister.email,
+          name: this.userRegister.name,
+          password: this.userRegister.password
+        }
+      })
+      .then(({data})=>{
+        this.$swal("Welcome foodist!", "Now you may log in", "success")
+      })
     }
   },
   created(){
