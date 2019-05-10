@@ -25,6 +25,7 @@
   </head>
   <body>
     <div id="app">
+      <!-- upload form modal -->
       <b-modal id="upload-modal" title="What kind of food did you have?" hide-footer>
         <b-form class="mt-2">
           <b-form-group label="Caption" label-for="caption">
@@ -44,6 +45,7 @@
                 @tags-changed="newTags => tags = newTags"
               />
           </b-form-group>
+          <small class="text-muted">Use enter key for each tag</small>
           <b-form-file
             v-model="file"
             :state="Boolean(file)"
@@ -61,11 +63,72 @@
           </b-row>
         </b-form>
       </b-modal>
+
+      <!-- register form  modal-->
+      <b-modal id="register-modal" centered hide-footer>
+          <b-container>
+              <b-row class="mt-1 d-flex justify-content-center">
+                  <h3>Let's get your data first!</h3>
+                </b-row>
+              <b-row class="mt-1 d-flex justify-content-center">
+                <small class="text-muted">FoodGasm</small>
+              </b-row>
+              <b-row class="mt-1 d-flex justify-content-center">
+                  <small class="text-muted"><i class="fas fa-hamburger"></i></small>
+                </b-row>
+              <b-form class="mt-2" @submit.prevent="register">
+                <b-form-group
+                  id="email-label-register"
+                  label="Email"
+                  label-for="email-register"
+                  description="We'll never share your email with anyone else."
+                >
+                  <b-form-input
+                    id="email-register"
+                    type="email"
+                    required
+                    v-model="userRegister.email"
+                    placeholder="Enter email"
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                      id="name-label-register"
+                      label="Full Name"
+                      label-for="name-register"
+                    >
+                      <b-form-input
+                        id="name-register"
+                        type="text"
+                        required
+                        v-model="userRegister.name"
+                        placeholder="What is your name?"
+                      ></b-form-input>
+                    </b-form-group>
+                <b-form-group id="password-register" label="Password" label-for="password-register" class="my-2">
+                  <b-form-input
+                    type="password"
+                    placeholder="Enter password"
+                    id="password-register"
+                    required
+                    v-model="userRegister.password"
+                    @keyup.enter="register"
+                  ></b-form-input>
+                </b-form-group>
+                <b-row class="d-flex justify-content-around mt-3">
+                    <b-button block variant="success" class="m-5" @click.prevent="register">Register!</b-button>
+              </b-row>
+              </b-form>
+          </b-container>
+      </b-modal>
+
+      <!-- login -->
       <b-container fluid class="pt-4 pb-5" id="login-page" v-if="!isLogin">
         <b-row>
           <b-col> </b-col>
           <b-col cols="4">
-            <form-user @submit-login="login" v-if="!isLogin"> </form-user>
+            <form-user @submit-form="login" v-if="!isLogin">
+              <small class="text-muted mt-2">or</small>
+              <b-button type="reset" style="background-color: #4F6D7A" v-b-modal.register-modal>Register</b-button></form-user>
           </b-col>
           <b-col> </b-col>
         </b-row>
