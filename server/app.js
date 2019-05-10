@@ -2,10 +2,10 @@ require('dotenv').config()
 const express = require('express')
 const app = express();
 const router = require('./routes')
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors')
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/foodgasm', {useNewUrlParser:true})
+mongoose.connect(process.env.ATLAS_URL||'mongodb://localhost/foodgasm', {useNewUrlParser:true})
 const errorHandler = require('./middlewares/errorHandling')
 
 const morgan = require('morgan');

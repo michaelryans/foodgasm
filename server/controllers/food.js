@@ -66,8 +66,8 @@ class FoodController {
         let obj = {}
 
         if( tag || search ){ 
-            search = new RegExp(`${search}.+`) 
-            tag = new RegExp(`${tag}.+`) 
+            search = new RegExp(`${search}`) 
+            tag = new RegExp(`${tag}`) 
             obj = { $or: [{'caption' :{ $regex: search , $options: 'i' }} ,{ 'tags.text' :{ $regex: tag , $options: 'i' }}] }
         }
 
