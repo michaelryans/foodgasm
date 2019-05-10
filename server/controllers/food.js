@@ -2,7 +2,9 @@ const Food = require('../models/food')
 
 class FoodController {
     static create(req,res, next) {
-        Food.create({ image :req.file.cloudStoragePublicUrl, tags : req.file.labels })
+        const { name, caption } = req.body
+
+        Food.create({ image :req.file.cloudStoragePublicUrl, tags : req.file.labels, name, caption})
         .then( data => {
             res.status(201).json(data)
         })
