@@ -4,7 +4,10 @@ class FoodController {
     static create(req,res, next) {
         const { name, caption } = req.body
 
-        Food.create({ image :req.file.cloudStoragePublicUrl, tags : req.file.labels, name, caption})
+        const create_obj = { image :req.file.cloudStoragePublicUrl, tags : req.file.labels, name, caption}
+        create_obj.user_id = req.headers.id
+
+        Food.create(create_obj)
         .then( data => {
             res.status(201).json(data)
         })
@@ -59,6 +62,7 @@ class FoodController {
         }
 
         Food.find(obj)
+        .populate({path:'user_id', select:['name', 'email']})
         .then(data => {
             res.status(200).json(data)
         })

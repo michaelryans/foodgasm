@@ -21,6 +21,14 @@ client
     })
 
     if(flag){
+        labels.forEach(el => {
+            delete el.locations
+            delete el.properties
+            delete el.mid
+            delete el.locale
+            delete el.confidence
+            delete el.boundingPoly
+        })
         req.file.labels = labels
         next()
     } else {
