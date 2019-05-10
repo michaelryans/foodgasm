@@ -7,5 +7,6 @@ router.post('/', multer.single('file'), sendUploadToGCS, googleVision, controlle
 router.patch('/like/:id', controller.updateLike)
 router.get('/', controller.getAll)
 router.patch('/:id', controller.updateOne)
+router.delete('/:id', controller.deleteOne)
 
 module.exports = router
