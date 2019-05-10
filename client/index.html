@@ -37,7 +37,12 @@
           </b-form-group>
 
           <b-form-group label="Tags" class="my-2">
-            <b-form-input required></b-form-input>
+            <!-- <b-form-input required></b-form-input> -->
+              <vue-tags-input
+                v-model="tag"
+                :tags="tags"
+                @tags-changed="newTags => tags = newTags"
+              />
           </b-form-group>
           <b-form-file
             v-model="file"
@@ -46,6 +51,7 @@
             drop-placeholder="Drop file here..."
             class="mt-4"
           ></b-form-file>
+          
           <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div>
           <b-row class="d-flex justify-content-around mt-5">
             <b-button
@@ -116,11 +122,18 @@
 
       <b-container> </b-container>
     </div>
+    <!-- vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <!-- bootstrap -->
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <!-- axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- vue tags -->
     <script src="https://unpkg.com/@johmun/vue-tags-input/dist/vue-tags-input.js"></script>
+    <!-- swal -->
     <script src="https://unpkg.com/vue-swal"></script>
+
+    <!-- components starts here -->
     <script src="./assets/scripts/components/form.js"></script>
     <script src="./assets/scripts/components/card.js"></script>
     <script src="./assets/scripts/main.js"></script>
