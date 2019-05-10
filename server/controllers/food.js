@@ -1,26 +1,37 @@
 const Food = require('../models/food')
+
 class FoodController {
     static create(req,res, next) {
-        console.log('masuk ke sini')
-        console.log(req.file,'==============================')
-        res.status(200).json({ image :req.file.cloudStoragePublicUrl, labels : req.file.labels})
+        Food.create({ image :req.file.cloudStoragePublicUrl, tags : req.file.labels })
+        .then( data => {
+            res.status(201).json(data)
+        })
+        .catch( err => {
+            next(err)
+        })
     }
 
     static updateLike(req, res, next){
         const { id } = req.params
+        const {user_id} = req.query
+     
 
-        Food.findOne({ likes : id})
+        Food.findOne({ _id : id })
         .then( data => {
-            if(data){
-                data.likes.push(id)
-                res.status(200).json(data)
-            } else {
-                let index = likes.indexOf(id)
+            if(data.likes.includes(user_id)){
+                let index = data.likes.indexOf(user_id)
                 data.likes.splice(index, 1)
+            } else {
+                data.likes.push(user_id)
                 res.status(200).json(data)
             }
+            return data.save()
+        })
+        .then( data => {
+            res.status(200).json(data)
         })
         .catch( err =>{
+            console.log(err)
             next(err)
         })
     }
@@ -59,7 +70,7 @@ class FoodController {
     
     static updateOne(req,res) {
         const { id } = req.params
-        const { name , caption, likes, tags, location} = req.body
+        const { name , caption, likes, tags, location } = req.body
         let obj = { name , caption, likes, tags, location}
 
         Object.keys(obj).map( el => {

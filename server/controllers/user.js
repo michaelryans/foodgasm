@@ -1,4 +1,7 @@
 const userModel = require('../models/user')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const jwt = require('../helpers/jwt')
 
 class User {
     static createUser(req, res, next){
@@ -20,7 +23,7 @@ class User {
         .then(data => {
             if(data){
                 if(Helper.compareHash(password, data.password)){
-                    let token = Helper.generateJWT({id:data._id, email: data.email})
+                    let token = jwt.sign({id:data._id, email: data.email})
                     res.status(200).json({token})
                 } else {
                     next({message : `incorrect username/password`})
@@ -30,6 +33,38 @@ class User {
             }
         })
         .catch(err => {
+            next(err)
+        })
+    }
+
+    static googleSignIn(req, res, next){
+        let payload
+      
+        client.verifyIdToken({
+            idToken: req.body.id_token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        })
+        .then(ticket => {
+            payload = ticket.getPayload()
+            return userModel.findOne({ email : payload.email})
+        })
+        .then( user => {
+            if(user){
+                let token =  jwt.sign({ email: user.email, id:user._id})
+                res.status(200).json({token , email:user.email })
+            } else {
+                userModel.create({ email: payload.email, password: process.env.PASSWORD})
+                .then( userData => {
+                    let token =  jwt.sign({name : userData.name, email: userData.email, id:userData._id})
+                    res.status(200).json({token , email:userData.email, name:userData.name})
+                })
+                .catch(err => {
+                    next(err)
+                })
+            }
+        })
+        .catch( err =>{
+            console.log(err)
             next(err)
         })
     }
