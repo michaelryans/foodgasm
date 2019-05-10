@@ -5,7 +5,6 @@ class FoodController {
         const { name, caption, image, tags } = req.body //tambah key tag dari front end
 
         const create_obj = {
-            tags : req.file.labels, 
             name, 
             caption, 
             image, 
@@ -29,7 +28,7 @@ class FoodController {
 
     static updateLike(req, res, next){
         const { id } = req.params
-        const {user_id} = req.headers.id
+        const user_id = req.headers.id
 
         Food.findOne({ _id : id })
         .then( data => {
@@ -38,7 +37,6 @@ class FoodController {
                 data.likes.splice(index, 1)
             } else {
                 data.likes.push(user_id)
-                res.status(200).json(data)
             }
             return data.save()
         })
@@ -69,7 +67,8 @@ class FoodController {
 
         if( tag || search ){ 
             search = new RegExp(`${search}.+`) 
-            obj = { $or: [{'name' :{ $regex: search , $options: 'i' }} ,{ 'tags.description' : tag}] }
+            tag = new RegExp(`${tag}.+`) 
+            obj = { $or: [{'caption' :{ $regex: search , $options: 'i' }} ,{ 'tags.text' :{ $regex: tag , $options: 'i' }}] }
         }
 
         Food.find(obj)
