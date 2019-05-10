@@ -2,6 +2,7 @@ const userModel = require('../models/user')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const jwt = require('../helpers/jwt')
+const bcrypt = require('../helpers/bcrypt')
 
 class User {
     static createUser(req, res, next){
@@ -22,7 +23,7 @@ class User {
         userModel.findOne({email})
         .then(data => {
             if(data){
-                if(Helper.compareHash(password, data.password)){
+                if( bcrypt.compareHash(password, data.password)){
                     let token = jwt.sign({id:data._id, email: data.email})
                     res.status(200).json({token})
                 } else {
