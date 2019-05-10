@@ -35,7 +35,7 @@ class FoodController {
         })
     }
     
-    static findOne(req,res) {
+    static findOne(req,res,next) {
         const { id } = req.params
         
         Food.findOne({id})
@@ -53,7 +53,7 @@ class FoodController {
 
         if( tag || search ){ 
             search = new RegExp(`${search}.+`) 
-            obj = { $or: [{'title' :{ $regex: search , $options: 'i' }} ,{ 'tags.text' : tag}] }
+            obj = { $or: [{'name' :{ $regex: search , $options: 'i' }} ,{ 'tags.description' : tag}] }
         }
 
         Food.find(obj)
@@ -65,9 +65,9 @@ class FoodController {
         })
     }
     
-    static updateOne(req,res) {
+    static updateOne(req,res, next) {
         const { id } = req.params
-        const { name , caption, likes, tags, location } = req.body
+        const { name , caption, tags, location } = req.body
         let obj = { name , caption, likes, tags, location}
 
         Object.keys(obj).map( el => {
@@ -85,11 +85,11 @@ class FoodController {
         })
     }
     
-    static deleteOne(req,res) {
+    static deleteOne(req,res, next) {
         const { id } = req.params
-        Food.deleteOne(id)
+        Food.findOneAndDelete(id)
         .then( data => {
-            res.status(204).json()
+            res.status(200).json({_id : data._id})
         })
         .catch( err => {
             next(err)
